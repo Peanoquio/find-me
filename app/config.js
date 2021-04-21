@@ -53,14 +53,23 @@ const goals = [
     },
 ];
 
+// list of configured vendors
 const vendors = {
     // Huggs Coffee
     'HUGGS_COFFEE': {
         id: 'HUGGS_COFFEE',
         lat: 1.283827,
         lng: 103.848882,
-        promo: {
-            desc: 'free hug for every coffee mug used to save the environment',
+        details: {
+            promo: `<div>
+                    <h3 class='center-text'>Huggs Coffee Promo</h3>
+                    <div class='center-text'>free hug for every coffee mug used to save the environment</div>
+                    <div><img width='50%' class='center-pos' src='/static/images/qrcode.png' alt='scan QR code'></div>
+                    <div class='center-text'><video class='center-pos' width="240" height="180" autoplay muted loop>
+                    <source src="/static/video/foodpanda_sushitei_ad.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                    </video></div>
+                    </div>`,
         },
     },
     // Birds of a Feather
@@ -68,8 +77,12 @@ const vendors = {
         id: 'BIRDS_OF_A_FEATHER',
         lat: 1.282168,
         lng: 103.847684,
-        promo: {
-            desc: 'enjoy 30% off if you dine as a flock of 4 people',
+        details: {
+            promo: `<div>
+                    <h3 class='center-text'>Birds of a Feather Promo</h3>
+                    <div class='center-text'>enjoy 30% off if you dine as a flock of 4 people</div>
+                    <div><img class='center-pos' src='/static/images/qrcode.png' alt='scan QR code'></div>
+                    </div>`,
         },
     },
 };

@@ -177,9 +177,10 @@ function initMap() {
  * @param {google.maps.Map} map
  * @param {float} lat
  * @param {float} lng
+ * @param {Object} details
  * @returns
  */
- function addVendor(id, map, lat, lng) {
+ function addVendor(id, map, lat, lng, details) {
     if (id in vendorList) {
         return;
     }
@@ -201,8 +202,19 @@ function initMap() {
         position: latLng,
         icon: icon,
         map: map,
+        title: id,
         draggable: false,
         animation: google.maps.Animation.DROP,
+    });
+
+    // create the info window for the marker
+    const infowindow = new google.maps.InfoWindow({
+        content: details.promo,
+    });
+
+    // attach event to open info window once the marker is clicked
+    vendor.addListener('click', () => {
+        infowindow.open(map, vendor);
     });
 
     // attach the custom property

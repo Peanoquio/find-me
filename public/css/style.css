@@ -16,6 +16,27 @@ body {
     --animate-delay: 0.4s;
 }
 
+img.center-pos {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+video {
+    width: 100%;
+    max-height: 100%;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.chat-wrapper { 
+    position: absolute;
+    left: 16px;
+    bottom: 16px;
+}
+
 #chat-btn {
     border: none;
     background: #FFF;

@@ -169,7 +169,7 @@ function handleGoalList(socket) {
             if (data.vendors.hasOwnProperty(vendorId)) {
                 let vendor = data.vendors[vendorId];
                 // add the vendor to the map so it is revealed
-                addVendor(vendor.id, map, vendor.lat, vendor.lng);
+                addVendor(vendor.id, map, vendor.lat, vendor.lng, vendor.details);
             }
         }
 
