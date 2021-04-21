@@ -9,6 +9,9 @@ const spawnPoint = config.SPAWN_POINT;
 const userList = {};
 let connectionNum = 0;
 
+// list of available vendors
+const vendorList = config.VENDORS;
+
 // list of goals discovered
 const goalList = {};
 
@@ -30,6 +33,8 @@ io.sockets.on('connection', socket => {
         io.sockets.emit('userList', { users: userList, spawnPoint: spawnPoint });
         // refresh the goal list for the user
         socket.emit('goalList', { goals: goalList });
+        // populate the vendors in the area for the user
+        socket.emit('vendorList', { vendors: vendorList });
 
         console.log('New connection having id: %s', socket.id);
         console.log('Current number of userList: %s', connectionNum);

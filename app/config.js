@@ -53,6 +53,27 @@ const goals = [
     },
 ];
 
+const vendors = {
+    // Huggs Coffee
+    'HUGGS_COFFEE': {
+        id: 'HUGGS_COFFEE',
+        lat: 1.283827,
+        lng: 103.848882,
+        promo: {
+            desc: 'free hug for every coffee mug used to save the environment',
+        },
+    },
+    // Birds of a Feather
+    'BIRDS_OF_A_FEATHER': {
+        id: 'BIRDS_OF_A_FEATHER',
+        lat: 1.282168,
+        lng: 103.847684,
+        promo: {
+            desc: 'enjoy 30% off if you dine as a flock of 4 people',
+        },
+    },
+};
+
 module.exports = {
     SPAWN_POINT: spawnPoint,
     GOAL_DISCOVERY_METERS: GOAL_DISCOVERY_METERS,
@@ -63,4 +84,5 @@ module.exports = {
     GOAL_STATUS_DISCOVERED: GOAL_STATUS_DISCOVERED,
     GOAL_STATUS_ACQUIRED: GOAL_STATUS_ACQUIRED,
     GOALS: goals,
+    VENDORS: vendors,
 };
