@@ -228,6 +228,11 @@ function initMap() {
     // add to the map
     vendor.setMap(map);
 
+    // display the toast message
+    setTimeout(() => {
+        toastr.info(details.toast);
+    }, 10000);
+
     console.log(`Added vendor having id: ${id}`);
     console.log(vendorList);
 }

@@ -61,6 +61,7 @@ const vendors = {
         lat: 1.283827,
         lng: 103.848882,
         details: {
+            toast: 'Huggs Coffee Promo: free hug for every coffee mug used to save the environment',
             promo: `<div>
                     <h3 class='center-text'>Huggs Coffee Promo</h3>
                     <div class='center-text'>free hug for every coffee mug used to save the environment</div>
@@ -78,6 +79,7 @@ const vendors = {
         lat: 1.282168,
         lng: 103.847684,
         details: {
+            toast: 'Birds of a Feather Promo: enjoy 30% off if you dine as a flock of 4 people',
             promo: `<div>
                     <h3 class='center-text'>Birds of a Feather Promo</h3>
                     <div class='center-text'>enjoy 30% off if you dine as a flock of 4 people</div>
