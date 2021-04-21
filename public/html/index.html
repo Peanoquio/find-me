@@ -7,27 +7,31 @@
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
     <title>Node.js Socket.io Application</title>
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css'
+  />
     <link rel='stylesheet' type='text/css' href='http://localhost:8081/static/css/style.css' />
 </head>
 
 <body>
-    <div class='container'>
-        <div class='row' style='margin-top: 70px;'>
-            <!-- map section -->
-            <div id='map' class='col-md-6'></div>
-    
-            <!-- chat section -->
-            <div class='col-md-4'>
-                <div id='chatArea'></div>
-                <form id='myForm'>
-                    <div class='form-group'>
-                        <textarea rows='5' id='txt' cols='5' class='form-control'></textarea>
-                    </div>
-                    <div class='form-group'>
-                        <button type='submit' class='btn btn-success'>Send</button>
-                    </div>
-                </form>
-            </div>
+    <!-- map section -->
+    <div id='map'></div>
+    <button id='chat-btn'>
+        <svg class="fl-neutral-secondary" width="25" height="25" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48">
+            <defs>
+                <path fill="#D70F64" d="M44 10v19h-6v5l-6-5h-2.001L30 38H16l-6 5v-5H4V19h14v-9h26zM29 20H5v17h6v3.865L15.638 37H29V20zm14-9H19v8h19v1h-8v2h8v1h-8v5h2.362L37 31.865V28h6V11zm-5 5v1H24v-1h14z" id="sIcChatLg"></path>
+            </defs>
+            <use xlink:href="#sIcChatLg" fill-rule="evenodd"></use>
+        </svg> Chat
+    </button>
+    <span class='unread-message hide'></span>
+    <div class='chat-wrapper animate__animated animate__fadeOutDown'>
+        <div class='chat-content'>
+            <div id='chatArea'></div>
+            <form id='myForm'>
+                <textarea id='txt' class='form-control'></textarea>
+                <button type='submit' class='btn btn-light submit'>Send</button>
+                <button type='button' class='toggle-chat'>x</button>
+            </form>
         </div>
     </div>
 
