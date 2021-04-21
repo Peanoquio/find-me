@@ -157,6 +157,35 @@ function handleGoalList(socket) {
 }
 
 /**
+ * Handle the event when the list of vendors has been broadcasted
+ *
+ * @param {SocketIO.Socket} socket
+ */
+ function handleVendorList(socket) {
+    // refresh vendors
+    socket.on('vendorList', (data) => {
+        // go through the vendor list coming from the server
+        for (let vendorId in data.vendors) {
+            if (data.vendors.hasOwnProperty(vendorId)) {
+                let vendor = data.vendors[vendorId];
+                // add the vendor to the map so it is revealed
+                addVendor(vendor.id, map, vendor.lat, vendor.lng);
+            }
+        }
+
+        // go through the vendor list on the client side
+        for (vendorId in vendorList) {
+            if (vendorList.hasOwnProperty(vendorId)) {
+                // if the vendor is no longer in the list coming from the server side
+                if (!(vendorId in data.vendors)) {
+                    removeVendor(vendorId);
+                }
+            }
+        }
+    });
+}
+
+/**
  * Handle the event when the users in the map update their positions
  * 
  * @param {SocketIO.Socket} socket 
@@ -209,6 +238,7 @@ function registerHandlers(socket) {
         handleReceiveChat,
         handleUserJoin,
         handleGoalList,
+        handleVendorList,
         handleUsersPostionUpdate,
         handleGoalDiscovery,
         handleGoalAcquisition,

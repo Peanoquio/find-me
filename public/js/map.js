@@ -8,6 +8,9 @@ let userLng;
 // list of other users 
 const userList = {};
 
+// list of vendors
+const vendorList = {};
+
 // list of visible goals
 const goalList = {};
 
@@ -22,6 +25,7 @@ function initMap() {
     const defaultLatLng = new google.maps.LatLng(lat, lng);
 
     const mapOptions = {
+        mapId: '92475cb9c703e333',
         zoom: 18,
         center: defaultLatLng,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -167,6 +171,73 @@ function initMap() {
 }
 
 /**
+ * Creates and add the vendor to the map
+ *
+ * @param {string} id
+ * @param {google.maps.Map} map
+ * @param {float} lat
+ * @param {float} lng
+ * @returns
+ */
+ function addVendor(id, map, lat, lng) {
+    if (id in vendorList) {
+        return;
+    }
+
+    const baseImgURL = 'http://maps.google.com/mapfiles/kml/shapes/';
+    let iconURL = `${baseImgURL}/ranger_station.png`;
+
+    // icon settings
+    const icon = {
+        url: iconURL,
+        scaledSize: new google.maps.Size(35, 35),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(32, 32),
+    };
+
+    // create the marker given the location
+    const latLng = new google.maps.LatLng(lat, lng);
+    const vendor = new google.maps.Marker({
+        position: latLng,
+        icon: icon,
+        map: map,
+        draggable: false,
+        animation: google.maps.Animation.DROP,
+    });
+
+    // attach the custom property
+    vendor.custom = {
+        id: id,
+    };
+
+    // add to the list
+    vendorList[id] = vendor;
+
+    // add to the map
+    vendor.setMap(map);
+
+    console.log(`Added vendor having id: ${id}`);
+    console.log(vendorList);
+}
+
+/**
+ * Remove the vendor from the list and map
+ *
+ * @param {string} id
+ */
+ function removeVendor(id) {
+    if (id in vendorList) {
+        if (vendorList[id]) {
+            vendorList[id].setMap(null);
+        }
+        delete vendorList[id];
+
+        console.log(`Removed vendor having id: ${id}`);
+        console.log(vendorList);
+    }
+}
+
+/**
  * Creates and add the goal to the map
  * 
  * @param {string} id 
@@ -189,12 +260,12 @@ function initMap() {
         url: iconURL,
         scaledSize: new google.maps.Size(35, 35),
         origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(32, 32),
     };
 
     // create the marker given the location
     const latLng = new google.maps.LatLng(lat, lng);
-    goal = new google.maps.Marker({ 
+    const goal = new google.maps.Marker({ 
         position: latLng, 
         icon: icon,
         map: map, 
@@ -264,13 +335,13 @@ function addUser(id, map, lat, lng, isSelf) {
         url: iconURL,
         scaledSize: new google.maps.Size(35, 35),
         origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(32, 32),
         //labelOrigin: new google.maps.Point(0, -5),
     };
 
     // create the user marker given the location
     const latLng = new google.maps.LatLng(lat, lng);
-    user = new google.maps.Marker({ 
+    const user = new google.maps.Marker({ 
         position: latLng, 
         icon: userIcon,
         label: { color: '#000000', fontWeight: 'bold', fontSize: '10px', text: id },
