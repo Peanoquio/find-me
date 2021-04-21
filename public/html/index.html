@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>Node.js Socket.io Application</title>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+    <link rel='stylesheet' type='text/css' href='http://localhost:8081/static/css/style.css' />
+</head>
+
+<body>
+    <div class='container'>
+        <div class='row' style='margin-top: 70px;'>
+            <!-- map section -->
+            <div id='map' class='col-md-6'></div>
+    
+            <!-- chat section -->
+            <div class='col-md-4'>
+                <div id='chatArea'></div>
+                <form id='myForm'>
+                    <div class='form-group'>
+                        <textarea rows='5' id='txt' cols='5' class='form-control'></textarea>
+                    </div>
+                    <div class='form-group'>
+                        <button type='submit' class='btn btn-success'>Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>
+
+    <script src='https://polyfill.io/v3/polyfill.min.js?features=default'></script>
+
+    <script src='http://localhost:8081/static/js/map.js'></script>
+
+    <script src='https://maps.googleapis.com/maps/api/js?key=<GOOGLE_API_KEY>&callback=initMap&libraries=&v=weekly'></script>
+
+    <script src='http://localhost:8081/static/js/client.js'></script>
+
+    <script>
+        jQuery(document).ready(() => {
+            // establish connection to websocket server
+            const socket = io.connect();
+
+            // attach event listener
+            document.onkeydown = checkKey(window.event, socket);
+
+            // handle sending of chat upon form submission
+            handleSendChat(socket);
+
+            // register handlers for the socket
+            registerHandlers(socket);
+        });
+    </script>
+
+</body>
+</html>
+ 
