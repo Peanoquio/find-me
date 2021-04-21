@@ -7,9 +7,14 @@ This implementation is mainly using JavaScript with NodeJS as the server.
 It also leverages on Google Maps API to enable location support.
 It also uses socket.io for real-time communication between connected clients.
 
-**Set-up**
+**Pre-requisites**
 
 This would require Node JS and NPM in your local.
+
+This would also require setting up a Google API key.
+https://developers.google.com/maps/documentation/javascript/get-api-key
+
+**Set-up**
 
 Install dependencies:
 ```
