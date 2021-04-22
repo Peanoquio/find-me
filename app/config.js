@@ -69,7 +69,7 @@ const vendors = {
             promo: `<div>
                     <h3 class='center-text'>Huggs Coffee Promo</h3>
                     <div class='center-text'>free hug for every coffee mug used to save the environment</div>
-                    <div><img width='50%' class='center-pos' src='/static/images/qrcode.png' alt='scan QR code'></div>
+                    <div><img width='40%' class='center-pos' src='/static/images/qrcode.png' alt='scan QR code'></div>
                     <div class='center-text'><video class='center-pos' width="240" height="180" autoplay muted loop>
                     <source src="/static/video/foodpanda_sushitei_ad.mp4" type="video/mp4">
                     Your browser does not support the video tag.
