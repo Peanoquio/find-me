@@ -185,15 +185,15 @@ function initMap() {
         return;
     }
 
-    const baseImgURL = 'http://maps.google.com/mapfiles/kml/shapes/';
-    let iconURL = `${baseImgURL}/ranger_station.png`;
+    const baseImgURL = '/static/images';
+    let iconURL = `${baseImgURL}/shop.png`;
 
     // icon settings
     const icon = {
         url: iconURL,
-        scaledSize: new google.maps.Size(35, 35),
+        scaledSize: new google.maps.Size(70, 70),
         origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(32, 32),
+        anchor: new google.maps.Point(44, 88),
     };
 
     // create the marker given the location
@@ -230,8 +230,8 @@ function initMap() {
 
     // display the toast message
     setTimeout(() => {
-        toastr.info(details.toast);
-    }, 10000);
+        toastr.info(details.toast.desc, details.toast.title);
+    }, details.toast.delay_ms);
 
     console.log(`Added vendor having id: ${id}`);
     console.log(vendorList);
@@ -269,15 +269,15 @@ function initMap() {
         return;
     }
 
-    const baseImgURL = 'http://maps.google.com/mapfiles/kml/shapes/';
-    let iconURL = isReward ? `${baseImgURL}/dollar.png` : `${baseImgURL}/snack_bar.png`;
+    const baseImgURL = '/static/images';
+    let iconURL = isReward ? `${baseImgURL}/gifts.png` : `${baseImgURL}/shop.png`;
 
     // icon settings
     const icon = {
         url: iconURL,
-        scaledSize: new google.maps.Size(35, 35),
+        scaledSize: new google.maps.Size(70, 70),
         origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(32, 32),
+        anchor: new google.maps.Point(44, 88),
     };
 
     // create the marker given the location
