@@ -9,11 +9,33 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 
 :root {
     --animate-duration: 300ms;
     --animate-delay: 0.4s;
+}
+
+img.center-pos {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+video {
+    width: 100%;
+    max-height: 100%;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.chat-wrapper { 
+    position: absolute;
+    left: 16px;
+    bottom: 16px;
 }
 
 #chat-btn {
@@ -86,11 +108,11 @@ body {
 }
 
 #chatArea .well.profile {
-    background-image: url(../images/profile.png);
+    background-image: url(../images/profile.svg);
 }
 
 #chatArea .well.profile.self {
-    background-image: url(../images/profile.png);
+    background-image: url(../images/dora.svg);
     background-position: calc(100% - 12px) 16px;
     padding-left: 0;
     padding-right: 56px;
@@ -135,4 +157,41 @@ body {
     color: #D70F64;
     float: right;
 }
+
+.rewards-wrapper {
+    position: absolute;
+    width: 250px;
+    left: 50%;
+    top: 50%;
+    margin-left: -125px;
+    margin-top: -140px;
+    z-index: 100;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px 0 #ddd;
+    text-align: center;
+    padding: 16px;
+}
+
+.rewards-wrapper img {
+    width: 100px;
+}
+
+.rewards-wrapper h1 {
+    margin-top: 8px;
+    font-size: 20px;
+    color: #666;
+    font-weight: normal;
+}
+
+.rewards-wrapper p {
+    padding: 8px 0;
+    font-size: 14px;
+    color: #8c8c8c;
+}
+
+.rewards-wrapper p span {
+    font-weight: bold;
+}
+
 

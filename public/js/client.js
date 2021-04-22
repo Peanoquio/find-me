@@ -157,6 +157,35 @@ function handleGoalList(socket) {
 }
 
 /**
+ * Handle the event when the list of vendors has been broadcasted
+ *
+ * @param {SocketIO.Socket} socket
+ */
+ function handleVendorList(socket) {
+    // refresh vendors
+    socket.on('vendorList', (data) => {
+        // go through the vendor list coming from the server
+        for (let vendorId in data.vendors) {
+            if (data.vendors.hasOwnProperty(vendorId)) {
+                let vendor = data.vendors[vendorId];
+                // add the vendor to the map so it is revealed
+                addVendor(vendor.id, map, vendor.lat, vendor.lng, vendor.details);
+            }
+        }
+
+        // go through the vendor list on the client side
+        for (vendorId in vendorList) {
+            if (vendorList.hasOwnProperty(vendorId)) {
+                // if the vendor is no longer in the list coming from the server side
+                if (!(vendorId in data.vendors)) {
+                    removeVendor(vendorId);
+                }
+            }
+        }
+    });
+}
+
+/**
  * Handle the event when the users in the map update their positions
  * 
  * @param {SocketIO.Socket} socket 
@@ -196,6 +225,16 @@ function handleGoalAcquisition(socket) {
     socket.on('clearGoal', (data) => {
         // remove the goal from the map
         removeGoal(data.id);
+
+        const newRewardsElement = constructElement();
+        $('body').append(newRewardsElement);
+
+        const element = document.querySelector('.rewards-wrapper');
+        party.confetti(element);
+
+        $('.rewards-close').click(function() {
+            $('.rewards-wrapper').remove();
+        });
     });
 }
 
@@ -209,6 +248,7 @@ function registerHandlers(socket) {
         handleReceiveChat,
         handleUserJoin,
         handleGoalList,
+        handleVendorList,
         handleUsersPostionUpdate,
         handleGoalDiscovery,
         handleGoalAcquisition,
@@ -233,6 +273,23 @@ function handleUnreadMessage(isNewMessage = false) {
         $('.unread-message').addClass('hide');
     }
 }
+
+/**
+ * Rewards element
+ * 
+ */
+function constructElement() {
+    const rewards = Math.floor((Math.random() * 50) + 30);
+
+    return `<div class='rewards-wrapper animate__animated animate__bounceIn animate__slow'>
+        <img src='static/images/rewards.png' />
+        <h1>Congratulations</h1>
+        <p>
+            <span>${rewards}</span> panda pay credits has been credited to your account
+        </p>
+        <button type='button' class='rewards-close btn btn-light animate__fadeOut'>close</button>
+    </div>`;
+} 
 
 jQuery(document).ready(() => {
     $('#txt').keypress(function (e) {
