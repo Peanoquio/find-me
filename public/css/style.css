@@ -49,9 +49,9 @@ video {
 }
 
 #progress-wrapper #target-icon-wrapper {
-    position: absolute;
-    left: 285px;
-    top: 0px;
+    position: relative;
+    left: 220px;
+    top: -55px;
 }
 
 #progress-wrapper #target-icon-wrapper #target-icon {
@@ -63,7 +63,7 @@ video {
     left: 35px;
     top: -30px;
     height: 8px;
-    width: 350%;
+    width: 180px;
 }
 
 .chat-wrapper { 
