@@ -361,6 +361,11 @@ function initMap() {
  */
  function removeGoal(id) {
     if (id in targetList) {
+        // clear the progress bar if the cleared goal is the current target
+        if (id === currentTarget.id) {
+            resetProgressBar();
+        }
+
         delete targetList[id];
         currentTarget = null;
     }

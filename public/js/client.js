@@ -206,11 +206,21 @@ function resetProgressBar(isShop) {
     if (progressElem) {
         progressElem.setAttribute('value', 0);
 
-        const imgElem = document.getElementById('target-icon');
-        if (imgElem) {
-            // update the image icon
-            const imgSrc = isShop ? 'shop_target' : 'gifts_target';
-            imgElem.src = `static/images/${imgSrc}.png`;
+        const progressWrapElem = document.getElementById('progress-wrapper');
+
+        if (isShop !== null && isShop !== undefined) {
+            // show the progress bar section
+            progressWrapElem.setAttribute('class', 'animate__animated animate__bounceIn animate__slow');
+
+            const imgElem = document.getElementById('target-icon');
+            if (imgElem) {
+                // update the image icon
+                const imgSrc = isShop ? 'shop_target' : 'gifts_target';
+                imgElem.src = `static/images/${imgSrc}.png`;
+            }
+        } else {
+            // hide the progress bar section
+            progressWrapElem.setAttribute('class', 'animate__animated animate__fadeOutDown');
         }
     }
 }
