@@ -7,7 +7,7 @@ const spawnPoint = {
 // goal parameters
 const GOAL_HINT_METERS = 70;
 const GOAL_DISCOVERY_METERS = 50;
-const GOAL_REWARD_ACQUIRE_METERS = 20;
+const GOAL_REWARD_ACQUIRE_METERS = 10;
 
 // goal types
 const GOAL_TYPE_ORDER = 1;

@@ -15,12 +15,14 @@
 <body>
     <!-- map section -->
     <div id='map'></div>
+
+    <!-- chat section -->
     <button id='chat-btn'>
-        <svg class="fl-neutral-secondary" width="25" height="25" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48">
+        <svg class='fl-neutral-secondary' width='25' height='25' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 48 48'>
             <defs>
-                <path fill="#D70F64" d="M44 10v19h-6v5l-6-5h-2.001L30 38H16l-6 5v-5H4V19h14v-9h26zM29 20H5v17h6v3.865L15.638 37H29V20zm14-9H19v8h19v1h-8v2h8v1h-8v5h2.362L37 31.865V28h6V11zm-5 5v1H24v-1h14z" id="sIcChatLg"></path>
+                <path fill='#D70F64' d='M44 10v19h-6v5l-6-5h-2.001L30 38H16l-6 5v-5H4V19h14v-9h26zM29 20H5v17h6v3.865L15.638 37H29V20zm14-9H19v8h19v1h-8v2h8v1h-8v5h2.362L37 31.865V28h6V11zm-5 5v1H24v-1h14z' id='sIcChatLg'></path>
             </defs>
-            <use xlink:href="#sIcChatLg" fill-rule="evenodd"></use>
+            <use xlink:href='#sIcChatLg' fill-rule='evenodd'></use>
         </svg> Chat
     </button>
     <span class='unread-message hide'></span>
@@ -35,13 +37,24 @@
         </div>
     </div>
 
+    <!-- distance progress bar section -->
+    <div id='progress-wrapper' class='hide'>
+        <div id='user-icon-wrapper'><img id='user-icon' src='static/images/dora.svg' /></div>
+        <div id='progress-bar-wrapper'><meter id='progress-bar'
+            min='0' max='100'
+            low='33' high='66' optimum='80'
+            value='0'>
+        </meter></div>
+        <div id='target-icon-wrapper'><img id='target-icon' src='static/images/shop_target.png' /></div>
+    </div>
+
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js' integrity='sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==' crossorigin='anonymous'></script>
     <script src='https://polyfill.io/v3/polyfill.min.js?features=default'></script>
 
     <script src='/static/js/map.js'></script>
-    <script src="https://cdn.jsdelivr.net/npm/party-js@latest/bundle/party.min.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/party-js@latest/bundle/party.min.js'></script>
 
     <script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyD5yEV7XbaLe7njvYqX1Omcr9a0xLYgEYQ&callback=initMap&libraries=&v=weekly'></script>
 

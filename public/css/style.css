@@ -32,6 +32,40 @@ video {
     text-align: center;
 }
 
+#progress-wrapper {
+    position: absolute;
+    left: 70px;
+    top: 16px;
+}
+
+#progress-wrapper #user-icon-wrapper {
+    position: relative;
+    left: 0px;
+    top: 0px;
+}
+
+#progress-wrapper #user-icon-wrapper #user-icon {
+    height: 36px;
+}
+
+#progress-wrapper #target-icon-wrapper {
+    position: relative;
+    left: 220px;
+    top: -55px;
+}
+
+#progress-wrapper #target-icon-wrapper #target-icon {
+    height: 45px;
+}
+
+#progress-bar {
+    position: relative;
+    left: 35px;
+    top: -30px;
+    height: 8px;
+    width: 180px;
+}
+
 .chat-wrapper { 
     position: absolute;
     left: 16px;
@@ -204,5 +238,3 @@ video {
 .invitation-wrapper p span {
     font-weight: bold;
 }
-
-
