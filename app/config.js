@@ -53,6 +53,50 @@ const goals = [
     },
 ];
 
+// list of configured vendors
+const vendors = {
+    // Huggs Coffee
+    'HUGGS_COFFEE': {
+        id: 'HUGGS_COFFEE',
+        lat: 1.283827,
+        lng: 103.848882,
+        details: {
+            toast : {
+                title: 'Huggs Coffee Promo',
+                desc: 'free hug for every coffee mug used to save the environment',
+                delay_ms: 8000,
+            },
+            promo: `<div>
+                    <h3 class='center-text'>Huggs Coffee Promo</h3>
+                    <div class='center-text'>free hug for every coffee mug used to save the environment</div>
+                    <div><img width='40%' class='center-pos' src='/static/images/qrcode.png' alt='scan QR code'></div>
+                    <div class='center-text'><video class='center-pos' width="240" height="180" autoplay muted loop>
+                    <source src="/static/video/foodpanda_sushitei_ad.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                    </video></div>
+                    </div>`,
+        },
+    },
+    // Birds of a Feather
+    'BIRDS_OF_A_FEATHER': {
+        id: 'BIRDS_OF_A_FEATHER',
+        lat: 1.282168,
+        lng: 103.847684,
+        details: {
+            toast : {
+                title: 'Birds of a Feather Promo',
+                desc: 'enjoy 30% off if you dine as a flock of 4 people',
+                delay_ms: 5000,
+            },
+            promo: `<div>
+                    <h3 class='center-text'>Birds of a Feather Promo</h3>
+                    <div class='center-text'>enjoy 30% off if you dine as a flock of 4 people</div>
+                    <div><img class='center-pos' src='/static/images/qrcode.png' alt='scan QR code'></div>
+                    </div>`,
+        },
+    },
+};
+
 module.exports = {
     SPAWN_POINT: spawnPoint,
     GOAL_DISCOVERY_METERS: GOAL_DISCOVERY_METERS,
@@ -63,4 +107,5 @@ module.exports = {
     GOAL_STATUS_DISCOVERED: GOAL_STATUS_DISCOVERED,
     GOAL_STATUS_ACQUIRED: GOAL_STATUS_ACQUIRED,
     GOALS: goals,
+    VENDORS: vendors,
 };
