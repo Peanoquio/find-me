@@ -344,9 +344,9 @@ function addUser(id, map, lat, lng, isSelf) {
         return;
     }
 
-    const baseImgURL = 'http://localhost:8081/';
+    // const baseImgURL = 'http://localhost:8081/';
     // let iconURL = isSelf ? `${baseImgURL}/man.png` : `${baseImgURL}/woman.png`;
-    let iconURL = `static/images/user-location.png`;
+    let iconURL = isSelf ? `static/images/user-location.png` : `static/images/participant-location.png`;
 
     // user icon settings
     const userIcon = {
