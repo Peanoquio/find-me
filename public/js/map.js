@@ -14,6 +14,15 @@ const vendorList = {};
 // list of visible goals
 const goalList = {};
 
+// list of targets that the user selected (eg. goals, vendors, etc.)
+const targetList = {};
+// the current target that the user most recently selected
+let currentTarget = {
+    id: null,
+    initial_distance: null,
+};
+
+
 /**
  * Main function which will be invoked as a callback by the Google Map API upon loading
  */
@@ -214,6 +223,19 @@ function initMap() {
 
     // attach event to open info window once the marker is clicked
     vendor.addListener('click', () => {
+        // add to the target list (needed for distance to destination)
+        targetList[id] = vendor;
+        // store the current target with the initial distance from the user
+        const dist = getDistance(userLat, userLng, lat, lng);
+        currentTarget = {
+            id: id,
+            initial_distance: dist,
+        };
+
+        // reset the progress bar
+        resetProgressBar(true);
+
+        // launch the vendor details dialog bubble
         infowindow.open(map, vendor);
     });
 
@@ -243,6 +265,10 @@ function initMap() {
  * @param {string} id
  */
  function removeVendor(id) {
+    if (id in targetList) {
+        delete targetList[id];
+        currentTarget = null;
+    }
     if (id in vendorList) {
         if (vendorList[id]) {
             vendorList[id].setMap(null);
@@ -290,6 +316,22 @@ function initMap() {
         animation: google.maps.Animation.DROP,
     });
 
+    // attach event to open info window once the marker is clicked
+    goal.addListener('click', () => {
+        // add to the target list (needed for distance to destination)
+        targetList[id] = goal;
+
+        // store the current target with the initial distance from the user
+        const dist = getDistance(userLat, userLng, lat, lng);
+        currentTarget = {
+            id: id,
+            initial_distance: dist,
+        };
+
+        // reset the progress bar
+        resetProgressBar(!isReward);
+    });
+
     // attach the custom property
     goal.custom = {
         id: id,
@@ -318,6 +360,10 @@ function initMap() {
  * @param {string} id 
  */
  function removeGoal(id) {
+    if (id in targetList) {
+        delete targetList[id];
+        currentTarget = null;
+    }
     if (id in goalList) {
         if (goalList[id]) {
             goalList[id].setMap(null);
@@ -353,7 +399,7 @@ function addUser(id, map, lat, lng, isSelf) {
         url: iconURL,
         scaledSize: new google.maps.Size(35, 46),
         origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(32, 32),
+        anchor: new google.maps.Point(31, 41),
         //labelOrigin: new google.maps.Point(0, -5),
     };
 

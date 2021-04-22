@@ -10,7 +10,7 @@ let unReadMessageCount = 0;
 /**
  * Check the triggered window event
  * 
- * @param {window.event} e 
+ * @param {window.event} e
  * @paran {SocketIO.Socket} socket
  * @returns function
  */
@@ -18,22 +18,38 @@ function checkKey(e, socket) {
     return (e) => {
         e = e || window.event;
 
+        let latDelta = 0;
+        let lngDelta = 0;
+
         switch(e.keyCode) {
             case 38: // up arrow
-                userPos = moveUser(myID, map, 0.00001, 0, true);
-                socket.emit('sendPos', userPos);
+                latDelta = 0.00001;
                 break;
             case 40: // down arrow
-                userPos = moveUser(myID, map, -0.00001, 0, true);
-                socket.emit('sendPos', userPos);
+                latDelta = -0.00001;
                 break;
             case 37: // left arrow
-                userPos = moveUser(myID, map, 0, -0.00001, true);
-                socket.emit('sendPos', userPos);
+                lngDelta = -0.00001;
                 break;
             case 39: // right arrow
-                userPos = moveUser(myID, map, 0, 0.00001, true);
+                lngDelta = 0.00001;
+                break;
+        }
+
+        switch(e.keyCode) {
+            case 38: // up arrow
+            case 40: // down arrow
+            case 37: // left arrow
+            case 39: // right arrow
+                userPos = moveUser(myID, map, latDelta, lngDelta, true);
                 socket.emit('sendPos', userPos);
+                if (currentTarget) {
+                    // this is to update the distance progress bar as the user moves to the target
+                    const dist = checkUserDistanceToTarget(userPos.lat, userPos.lng);
+                    if (dist !== false) {
+                        updateProgressBar(dist, currentTarget.initial_distance);
+                    }
+                }
                 break;
         }
     };
@@ -86,6 +102,117 @@ function handleNotifyUserInvite(socket) {
             });
         }
     });
+}
+
+/** 
+ * Convert from degrees to radians
+ *
+ * @param {float} degrees
+ * @returns
+ */
+ Math.toRadians = (degrees) => {
+	return degrees * Math.PI / 180;
+};
+
+/**
+ * Convert from radians to degrees
+ *
+ * @param {float} radians
+ * @returns
+ */
+Math.toDegrees = (radians) => {
+	return radians * 180 / Math.PI;
+};
+
+/**
+ * Normalize the value based on a range
+ *
+ * @param {float} x
+ * @param {float} min
+ * @param {float} max
+ * @returns
+ */
+Math.normalize = (x, min, max) => {
+    return (x - min) / (max - min);
+};
+
+/**
+ * Get the distance in meters between 2 position coordinates
+ * This is based on: https://stackoverflow.com/questions/837872/calculate-distance-in-meters-when-you-know-longitude-and-latitude-in-java
+ *
+ * @param {float} lat1
+ * @param {float} lng1
+ * @param {float} lat2
+ * @param {float} lng2
+ * @returns
+ */
+ function getDistance(lat1, lng1, lat2, lng2) {
+    const earthRadius = 6371000; // meters
+    const dLat = Math.toRadians(lat2-lat1);
+    const dLng = Math.toRadians(lng2-lng1);
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                Math.sin(dLng/2) * Math.sin(dLng/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    const dist = earthRadius * c;
+
+    return dist;
+}
+
+/**
+ * Check the distance of the user from the target in meters
+ *
+ * @param {float} lat
+ * @param {float} lng
+ * @returns {*}
+ */
+ function checkUserDistanceToTarget(lat, lng) {
+    if (currentTarget && (currentTarget.id in targetList)) {
+        const target = targetList[currentTarget.id];
+        if (target) {
+            // check the distance in meters between the user and the current target
+            const dist = getDistance(lat, lng, target.getPosition().lat(), target.getPosition().lng());
+            //console.log(`target: ${currentTarget.id} distance: ${dist}`);
+            return dist;
+        }
+
+        return false;
+    }
+
+    return false;
+}
+
+/**
+ * Update the progress meter bar value
+ *
+ * @param {float} currDist
+ * @param {float} targetDist
+ */
+function updateProgressBar(currDist, targetDist) {
+    const progressElem = document.getElementById('progress-bar');
+    if (progressElem) {
+        const value = 100 - Math.round(currDist * 100 / targetDist);
+        progressElem.setAttribute('value', value);
+    }
+}
+
+/**
+ * Reset the progress bar
+ *
+ * @param {boolean} isShop
+ */
+function resetProgressBar(isShop) {
+    const progressElem = document.getElementById('progress-bar');
+    if (progressElem) {
+        progressElem.setAttribute('value', 0);
+
+        const imgElem = document.getElementById('target-icon');
+        if (imgElem) {
+            // update the image icon
+            const imgSrc = isShop ? 'shop_target' : 'gifts_target';
+            imgElem.src = `static/images/${imgSrc}.png`;
+        }
+    }
 }
 
 /**
