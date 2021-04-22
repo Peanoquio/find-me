@@ -70,11 +70,25 @@ function handleReceiveChat(socket) {
         
         const d = new Date();
         const date = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + ", " + d.toDateString();
-        chatArea.append(`<div class='well ${className}'>${data.senderId !== 'notification' && `<span class='user'>${data.senderId}</span><span class='date'>${date}</span>`}${data.message}</div>`);
+        chatArea.append(`<div class='well ${className}'>${data.senderId !== 'notification' ? `<span class='user'>${data.senderId}</span><span class='date'>${date}</span>` : ''}${data.message}</div>`);
 
         $('#chatArea').scrollTop($('#chatArea')[0].scrollHeight);
         
         handleUnreadMessage(true);
+    });
+}
+
+/**
+ * Handle the event when receiving the chat message 
+ * 
+ * @param {SocketIO.Socket} socket 
+ */
+function handleReceiveHint(socket) {
+    // receive hint message
+    socket.on('newHint', (data) => {
+        if (data.userId === myID) {
+            toastr.success(data.message, 'Hint');
+        }
     });
 }
 
@@ -224,17 +238,19 @@ function handleGoalAcquisition(socket) {
     // when a goal has been acquired
     socket.on('clearGoal', (data) => {
         // remove the goal from the map
-        removeGoal(data.id);
+        removeGoal(data.goal.id);
 
-        const newRewardsElement = constructElement();
-        $('body').append(newRewardsElement);
+        if (data.userId === myID) {
+            const newRewardsElement = constructElement();
+            $('body').append(newRewardsElement);
 
-        const element = document.querySelector('.rewards-wrapper');
-        party.confetti(element);
+            const element = document.querySelector('.rewards-wrapper');
+            party.confetti(element);
 
-        $('.rewards-close').click(function() {
-            $('.rewards-wrapper').remove();
-        });
+            $('.rewards-close').click(function() {
+                $('.rewards-wrapper').remove();
+            });
+        }
     });
 }
 
@@ -252,6 +268,7 @@ function registerHandlers(socket) {
         handleUsersPostionUpdate,
         handleGoalDiscovery,
         handleGoalAcquisition,
+        handleReceiveHint,
     ];
 
     for (idx in handlers) {
@@ -279,7 +296,9 @@ function handleUnreadMessage(isNewMessage = false) {
  * 
  */
 function constructElement() {
-    const rewards = Math.floor((Math.random() * 50) + 30);
+    const max = 50;
+    const min = 30;
+    const rewards = Math.floor(Math.random() * (max - min + 1)) + min;
 
     return `<div class='rewards-wrapper animate__animated animate__bounceIn animate__slow'>
         <img src='static/images/rewards.png' />

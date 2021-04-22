@@ -85,7 +85,7 @@ io.sockets.on('connection', socket => {
             let dist = Number.MAX_VALUE;
 
             // if goal is not yet discovered
-            if (goal.status === config.GOAL_STATUS_NEW) {
+            if (goal.status === config.GOAL_STATUS_HINT) {
                 // check the distance in meters between the user and any goal
                 dist = util.getDistance(message.lat, message.lng, goal.lat, goal.lng);
 
@@ -108,6 +108,27 @@ io.sockets.on('connection', socket => {
                 }
             }
 
+            // if goal is not yet hinted
+            if (goal.status === config.GOAL_STATUS_NEW) {
+                // check the distance in meters between the user and any goal
+                dist = util.getDistance(message.lat, message.lng, goal.lat, goal.lng);
+
+                if (dist <= config.GOAL_HINT_METERS) {
+                    goal.status = config.GOAL_STATUS_HINT;
+
+                    goalList[goal.id] = goal;
+
+                    // broadcast message
+                    io.sockets.emit('newHint', { 
+                        senderId: 'notification', 
+                        userId: socket.id,
+                        message: `A nearby treasure around ${goal.landmark}`,
+                    });
+
+                    console.log(`A nearby treasure around ${goal.landmark}`);
+                }
+            }
+
             // if there are rewards not yet acquired
             if (goal.type === config.GOAL_TYPE_REWARD && goal.status !== config.GOAL_STATUS_ACQUIRED) {
                 if (dist === Number.MAX_VALUE) {
@@ -124,7 +145,10 @@ io.sockets.on('connection', socket => {
                     }
 
                     // remove acquired goal
-                    io.sockets.emit('clearGoal', goal);
+                    io.sockets.emit('clearGoal', {
+                        goal,
+                        userId: socket.id
+                    });
 
                     // broadcast message
                     io.sockets.emit('newMsg', { 

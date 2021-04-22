@@ -5,6 +5,7 @@ const spawnPoint = {
 };
 
 // goal parameters
+const GOAL_HINT_METERS = 70;
 const GOAL_DISCOVERY_METERS = 50;
 const GOAL_REWARD_ACQUIRE_METERS = 20;
 
@@ -16,6 +17,7 @@ const GOAL_TYPE_REWARD = 2;
 const GOAL_STATUS_NEW = 0;
 const GOAL_STATUS_DISCOVERED = 1;
 const GOAL_STATUS_ACQUIRED = 2;
+const GOAL_STATUS_HINT = 3;
 
 // goals / objectives
 const goals = [
@@ -26,6 +28,7 @@ const goals = [
         lng: 103.845951,
         type: GOAL_TYPE_ORDER,
         status: GOAL_STATUS_NEW,
+        landmark: 'pickering street',
     },
     // Little Creatures Brewing
     {
@@ -34,6 +37,7 @@ const goals = [
         lng: 103.846236,
         type: GOAL_TYPE_ORDER, 
         status: GOAL_STATUS_NEW,
+        landmark: 'pickering street',
     },
     // Great Eastern Insurance
     {
@@ -42,6 +46,7 @@ const goals = [
         lng: 103.847536,
         type: GOAL_TYPE_REWARD,
         status: GOAL_STATUS_NEW,
+        landmark: 'pickering street',
     },
     // DBS Bank
     {
@@ -50,6 +55,7 @@ const goals = [
         lng: 103.846245,
         type: GOAL_TYPE_REWARD,
         status: GOAL_STATUS_NEW,
+        landmark: 'hong lim',
     },
 ];
 
@@ -99,6 +105,7 @@ const vendors = {
 
 module.exports = {
     SPAWN_POINT: spawnPoint,
+    GOAL_HINT_METERS: GOAL_HINT_METERS,
     GOAL_DISCOVERY_METERS: GOAL_DISCOVERY_METERS,
     GOAL_REWARD_ACQUIRE_METERS: GOAL_REWARD_ACQUIRE_METERS,
     GOAL_TYPE_ORDER: GOAL_TYPE_ORDER,
@@ -106,6 +113,7 @@ module.exports = {
     GOAL_STATUS_NEW: GOAL_STATUS_NEW,
     GOAL_STATUS_DISCOVERED: GOAL_STATUS_DISCOVERED,
     GOAL_STATUS_ACQUIRED: GOAL_STATUS_ACQUIRED,
+    GOAL_STATUS_HINT: GOAL_STATUS_HINT,
     GOALS: goals,
     VENDORS: vendors,
 };
