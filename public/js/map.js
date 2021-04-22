@@ -344,13 +344,14 @@ function addUser(id, map, lat, lng, isSelf) {
         return;
     }
 
-    const baseImgURL = 'http://maps.google.com/mapfiles/kml/shapes/';
-    let iconURL = isSelf ? `${baseImgURL}/man.png` : `${baseImgURL}/woman.png`;
+    const baseImgURL = 'http://localhost:8081/';
+    // let iconURL = isSelf ? `${baseImgURL}/man.png` : `${baseImgURL}/woman.png`;
+    let iconURL = `static/images/user-location.png`;
 
     // user icon settings
     const userIcon = {
         url: iconURL,
-        scaledSize: new google.maps.Size(35, 35),
+        scaledSize: new google.maps.Size(35, 46),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(32, 32),
         //labelOrigin: new google.maps.Point(0, -5),
@@ -361,7 +362,6 @@ function addUser(id, map, lat, lng, isSelf) {
     const user = new google.maps.Marker({ 
         position: latLng, 
         icon: userIcon,
-        label: { color: '#000000', fontWeight: 'bold', fontSize: '10px', text: id },
         map: map, 
         draggable: false,
         animation: google.maps.Animation.DROP,

@@ -225,6 +225,16 @@ function handleGoalAcquisition(socket) {
     socket.on('clearGoal', (data) => {
         // remove the goal from the map
         removeGoal(data.id);
+
+        const newRewardsElement = constructElement();
+        $('body').append(newRewardsElement);
+
+        const element = document.querySelector('.rewards-wrapper');
+        party.confetti(element);
+
+        $('.rewards-close').click(function() {
+            $('.rewards-wrapper').remove();
+        });
     });
 }
 
@@ -263,6 +273,23 @@ function handleUnreadMessage(isNewMessage = false) {
         $('.unread-message').addClass('hide');
     }
 }
+
+/**
+ * Rewards element
+ * 
+ */
+function constructElement() {
+    const rewards = Math.floor((Math.random() * 50) + 30);
+
+    return `<div class='rewards-wrapper animate__animated animate__bounceIn animate__slow'>
+        <img src='static/images/rewards.png' />
+        <h1>Congratulations</h1>
+        <p>
+            <span>${rewards}</span> panda pay credits has been credited to your account
+        </p>
+        <button type='button' class='rewards-close btn btn-light animate__fadeOut'>close</button>
+    </div>`;
+} 
 
 jQuery(document).ready(() => {
     $('#txt').keypress(function (e) {
