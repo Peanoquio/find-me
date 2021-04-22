@@ -5,6 +5,8 @@ const form = $('#myForm');
 const txt = $('#txt');
 const chatArea = $('#chatArea');
 
+let unReadMessageCount = 0;
+
 /**
  * Check the triggered window event
  * 
@@ -46,8 +48,11 @@ function handleSendChat(socket) {
     // send chat message
     form.submit((e) => {
         e.preventDefault();
-        socket.emit('sendMsg', txt.val());
-        txt.val('');
+        var textVal = txt.val();
+        if (textVal) {
+            socket.emit('sendMsg', textVal);
+            txt.val('');
+        }
     });
 }
 
@@ -59,7 +64,17 @@ function handleSendChat(socket) {
 function handleReceiveChat(socket) {
     // receive chat message
     socket.on('newMsg', (data) => {
-        chatArea.append(`<div class='well'>${data.senderId}: ${data.message}</div>`);
+        const className = data.senderId !== 'notification'
+            ? `profile ${data.senderId === myID && 'self'}`
+            : data.senderId;
+        
+        const d = new Date();
+        const date = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + ", " + d.toDateString();
+        chatArea.append(`<div class='well ${className}'>${data.senderId !== 'notification' && `<span class='user'>${data.senderId}</span><span class='date'>${date}</span>`}${data.message}</div>`);
+
+        $('#chatArea').scrollTop($('#chatArea')[0].scrollHeight);
+        
+        handleUnreadMessage(true);
     });
 }
 
@@ -203,3 +218,45 @@ function registerHandlers(socket) {
         handlers[idx].call(null, socket);
     }
 }
+
+/**
+ * Toggle uncount message alert
+ * 
+ * @param {boolean} isNewMessage 
+ */
+function handleUnreadMessage(isNewMessage = false) {
+    if ($('.chat-wrapper').hasClass('animate__fadeOutDown') && isNewMessage) {
+        unReadMessageCount++;
+        $('.unread-message').html(unReadMessageCount).removeClass('hide');
+    } else {
+        unReadMessageCount = 0;
+        $('.unread-message').addClass('hide');
+    }
+}
+
+jQuery(document).ready(() => {
+    $('#txt').keypress(function (e) {
+        if (e.which == 13) {
+          $('#myForm').submit();
+          return false; 
+        }
+    });
+
+    const chatWrapper = $('.chat-wrapper');
+    const toggleChat = () => {
+        if (chatWrapper.hasClass('animate__fadeInUp')) {
+            chatWrapper.css('transform', 'translateZ(0)');
+        }
+        handleUnreadMessage();
+    
+        chatWrapper.toggleClass('animate__fadeOutDown').toggleClass('animate__fadeInUp');
+    };
+
+    $('#chat-btn').click(function() {
+        toggleChat();
+    });
+
+    $('.toggle-chat').click(function() {
+        toggleChat();
+    });
+});
