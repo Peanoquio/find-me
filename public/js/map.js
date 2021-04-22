@@ -372,6 +372,8 @@ function addUser(id, map, lat, lng, isSelf) {
         id: id,
     };
 
+    user.addListener('click', () => sendInvitation(id));
+
     // add to the list
     userList[id] = user;
 
@@ -380,6 +382,21 @@ function addUser(id, map, lat, lng, isSelf) {
 
     console.log(`Added user having id: ${id}`);
     console.log(userList);
+}
+
+/**
+ * Triggers an event when user icon is clicked
+ *
+ * @param {string} id
+ * @returns
+ */
+function sendInvitation(id) {
+    if (id in userList) {
+        if (!userList.hasOwnProperty(id)) {
+            return;
+        }
+        sendGroupInvitation(id);
+    }
 }
 
 /**

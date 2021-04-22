@@ -40,6 +40,55 @@ function checkKey(e, socket) {
 }
 
 /**
+ * Handle event when sending a group invitation to other
+ *
+ * @param {SocketIO.Socket} socket 
+ * @returns
+ */
+function handleSendGroupInvitationCallback(socket) {
+    return id => {
+        if (id === myID) {
+            return;
+        }
+
+        console.log(`Sending invitation to ${id}`);
+        socket.emit('sendGroupInvitation', {
+            sender: myID,
+            receiver: id,
+            title: 'Come and join my party!',
+        });
+    }
+}
+var sendGroupInvitation;
+const handleSendGroupInvitation = socket => {
+    sendGroupInvitation = handleSendGroupInvitationCallback(socket);
+}
+
+/**
+ * Handle event when user receives invitation
+ *
+ * @param {SocketIO.Socket} socket 
+ */
+function handleNotifyUserInvite(socket) {
+    socket.on('notifyUserInvite', details => {
+        if (myID == details.receiver) {
+            console.log(`I just received an invitation from ${details.sender}`);
+            const modal = constructInvitationModal(details.sender, details.title);
+            $('body').append(modal);
+
+            $(`.invitation-decline-${details.sender}`).click(function() {
+                $(`.invitation-wrapper-${details.sender}`).addClass('animate__backOutLeft');
+                setTimeout(() => $(`.invitation-wrapper-${details.sender}`).remove(), 500);
+            });
+            $(`.invitation-accept-${details.sender}`).click(function() {
+                $(`.invitation-wrapper-${details.sender}`).addClass('animate__backOutRight');
+                setTimeout(() => $(`.invitation-wrapper-${details.sender}`).remove(), 500);
+            });
+        }
+    });
+}
+
+/**
  * Handle the event to send the chat message upon form submission
  * 
  * @param {SocketIO.Socket} socket 
@@ -269,6 +318,8 @@ function registerHandlers(socket) {
         handleGoalDiscovery,
         handleGoalAcquisition,
         handleReceiveHint,
+        handleSendGroupInvitation,
+        handleNotifyUserInvite,
     ];
 
     for (idx in handlers) {
@@ -308,7 +359,19 @@ function constructElement() {
         </p>
         <button type='button' class='rewards-close btn btn-light animate__fadeOut'>close</button>
     </div>`;
-} 
+}
+
+function constructInvitationModal(id, title) {
+    return `<div class='invitation-wrapper invitation-wrapper-${id} animate__animated animate__wobble animate__slow'>
+        <img src='static/images/rewards.png' />
+        <h1>${id} invited you!</h1>
+        <p>
+            ${title}
+        </p>
+        <button type='button' class='invitation-decline-${id} btn btn-light animate__fadeOut'>decline</button>
+        <button type='button' class='invitation-accept-${id} btn btn-light animate__fadeOut'>accept</button>
+    </div>`;
+}
 
 jQuery(document).ready(() => {
     $('#txt').keypress(function (e) {

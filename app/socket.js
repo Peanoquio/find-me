@@ -161,4 +161,9 @@ io.sockets.on('connection', socket => {
             }
         } // end loop
     });
+
+    socket.on('sendGroupInvitation', details => {
+        console.log(`sending group invite notification to ${details.receiver}`);
+        io.sockets.emit('notifyUserInvite', details);
+    });
 });
